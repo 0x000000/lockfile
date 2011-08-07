@@ -41,35 +41,15 @@ class LockFile
   end
 
   def create_lockfile(lockfile)
-    begin
-      File.open(lockfile, "w") { |f| f.write(Process.pid) }
-    rescue
-      raise LockFileExists
-    end
+    File.open(lockfile, "w") { |f| f.write(Process.pid) }
   end
 
   def read_lockfile(lockfile)
-    begin
-      File.open(lockfile, "r").gets
-    rescue
-      raise LockFileMissing
-    end
+    File.open(lockfile, "r").gets
   end
 
   def destroy_lockfile(lockfile)
-    begin
-      File.delete(lockfile)
-    rescue
-      raise LockFileMissing
-    end
+    File.delete(lockfile)
   end
-
-  public
-  class LockFileError < StandardError
-  end
-  class LockFileExists < LockFileError
-  end  
-  class LockFileMissing < LockFileError
-  end  
 
 end

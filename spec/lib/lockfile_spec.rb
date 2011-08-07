@@ -30,12 +30,6 @@ describe LockFile do
     lockfile.filename.should == "example.lock"
     lockfile.qualified_path.should =~ /tmp\/example.lock/
   end
-  
-  it "should have the correct error classes present" do
-    LockFile::LockFileError.ancestors.should include(StandardError)
-    LockFile::LockFileExists.ancestors.should include(StandardError)
-    LockFile::LockFileMissing.ancestors.should include(StandardError)
-  end
 
   it "should not initially be locked" do
     lockfile.locked?.should be_false
