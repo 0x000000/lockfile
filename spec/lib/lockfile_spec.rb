@@ -1,6 +1,6 @@
 require 'fileutils'
 
-describe LockFile do
+describe LockFile::LockFile do
 
   let(:tmp_dirname) { File.expand_path(File.join(File.dirname(__FILE__), "..", "tmp")) }
   let(:fs_args) do
@@ -11,7 +11,7 @@ describe LockFile do
   end
 
   let(:lockfile_path) { File.join(fs_args[:path], fs_args[:filename]) }
-  let(:lockfile) { LockFile.new(fs_args) }
+  let(:lockfile) { LockFile::LockFile.new(fs_args) }
 
   before :all do
     FileUtils.mkdir tmp_dirname
