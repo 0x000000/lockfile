@@ -1,8 +1,14 @@
 class LockFile
   attr_accessor :path, :filename
 
-  def initialize(path="/tmp", filename="lockfile.lock")
-    @path, @filename = path, filename
+  DEFAULT_OPTS = {
+      :path => "/tmp",
+      :filename => "lockfile.lock"
+  }
+
+  def initialize(opts)
+    opts = DEFAULT_OPTS.merge opts
+    @path, @filename = opts[:path], opts[:filename]
   end
   
   def qualified_path

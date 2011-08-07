@@ -25,7 +25,7 @@ Gem::Specification.new do |s|
   s.rubygems_version = %q{1.3.5}
   s.summary = %q{A simple Lock File implementation.}
   s.test_files = [
-    "spec/lib/lockfile.rb",
+     "spec/lib/lockfile_spec.rb",
      "spec/spec_helper.rb",
      "spec/watch.rb"
   ]
