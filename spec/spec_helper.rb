@@ -1,1 +1,2 @@
-require File.join(File.expand_path(File.join(File.dirname(__FILE__), '..')), 'lib', 'lockfile.rb')
+require "#{File.dirname(__FILE__)}/../lib/lockfile/time_rules.rb"
+require "#{File.dirname(__FILE__)}/../lib/lockfile/lockfile.rb"
