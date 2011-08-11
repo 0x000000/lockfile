@@ -1,6 +1,9 @@
 module LockFile
   class LockFile
-    attr_accessor :path, :filename, :expire_after
+    include TimeRules
+
+    attr_accessor :path, :filename
+    attr_reader :expire_after
 
     DEFAULT_OPTS = {
         :path => "/tmp",
@@ -37,7 +40,22 @@ module LockFile
       !lockfile_exists?(self.qualified_path)
     end
 
+    def expired?
+      return true unless @expire_after
+
+      Time.now > expire_date
+    end
+
+    def creation_date
+      File.mtime(qualified_path)
+    end
+
+    def expire_date
+      calc_expire_date(creation_date, @expire_after) if @expire_after
+    end
+
     protected
+
     def lockfile_exists?(file)
       File.exists?(file)
     end

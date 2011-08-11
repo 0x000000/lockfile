@@ -56,5 +56,42 @@ describe LockFile::LockFile do
     lockfile.process_id.should_not be_nil
     lockfile.process_id.class.should == Fixnum
   end
-  
+
+  it 'should be never expire by default' do
+    lockfile.expire_after.should be_nil
+  end
+
+  it 'should return expired? as true without :expire_at' do
+    lockfile.expired?.should be_true
+  end
+
+  it 'should return expire_date as nil without :expire_at' do
+    lockfile.expire_date.should be_nil
+  end
+
+  context "when expire_at is present" do
+    let(:expired_lockfile) { LockFile::LockFile.new(fs_args.merge(:expire_after => "10 minutes")) }
+
+    it 'should set correct expire args' do
+      expired_lockfile.expire_after.should == "10 minutes"
+    end
+
+    it "should check file's creation time" do
+      FileUtils.touch expired_lockfile.qualified_path
+      expired_lockfile.creation_date.should <= Time.now
+    end
+
+    it 'should right calc expire date' do
+      FileUtils.touch expired_lockfile.qualified_path
+      expired_lockfile.expire_date.should >= Time.at(Time.now.to_i + 60 * 10)
+    end
+
+    it "should detect when file's creation time is expired'" do
+      expired_lockfile.stub!(:creation_date).and_return(Time.at(Time.now - 60 * 9))
+      expired_lockfile.expired?.should be_false
+
+      expired_lockfile.stub!(:creation_date).and_return(Time.at(Time.now - 60 * 11))
+      expired_lockfile.expired?.should be_true
+    end
+  end
 end
