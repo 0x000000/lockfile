@@ -16,7 +16,7 @@ The project page is located at http://gemcutter.org/gems/simple_lockfile.
 
   require 'lockfile'
   
-  l = LockFile.new("/Users/joshnesbitt/Desktop", "test.lock") # => "/Users/joshnesbitt/Desktop/test.lock"
+  l = LockFile.new({:path => "/Users/joshnesbitt/Desktop", :filename => "test.lock"}) # => "/Users/joshnesbitt/Desktop/test.lock"
 
   l.locked? # => false
   
@@ -44,7 +44,38 @@ And in the method something like this:
     @lockfile.unlock!
   end
 
+=== Expiration
+
+You can check if your .lock files are expired, by passing :expire_after argument into initializer
+
+    l = LockFile.new({:expire_after => "1 hour"})
+    l = LockFile.new({:expire_after => "5 hours"})
+    l = LockFile.new({:expire_after => "1 minute"})
+    l = LockFile.new({:expire_after => "100 minutes"})
+    l = LockFile.new({:expire_after => "2 hours and 10 minutes"})
+
+You can check that with expired? method:
+
+    l1 = LockFile.new({:expire_after => "1 hour"})
+    l2.locked?  # => false
+    l1.lock!
+    l1.expired? # => false
+
+    # more than hour passed and somewhere else
+
+    l2 = LockFile.new({:expire_after => "1 hour"})
+    l2.locked?  # => true
+    l2.expired? # => true
+
 == Testing
+
+To install necessary gems, please try
+
+  $ gem install bundler
+
+than
+
+  $ bundle
 
 Specs are run using Watchr (http://github.com/mynyml/watchr) to observe the /lib and /spec directories for any changes. Once installed simply do:
 
