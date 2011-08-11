@@ -41,7 +41,8 @@ module LockFile
     end
 
     def expired?
-      return true unless @expire_after
+      return false unless @expire_after
+      return false unless locked?
 
       Time.now > expire_date
     end

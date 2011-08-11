@@ -61,8 +61,8 @@ describe LockFile::LockFile do
     lockfile.expire_after.should be_nil
   end
 
-  it 'should return expired? as true without :expire_at' do
-    lockfile.expired?.should be_true
+  it 'should return expired? as false without :expire_at' do
+    lockfile.expired?.should be_false
   end
 
   it 'should return expire_date as nil without :expire_at' do
@@ -89,6 +89,8 @@ describe LockFile::LockFile do
     it "should detect when file's creation time is expired'" do
       expired_lockfile.stub!(:creation_date).and_return(Time.at(Time.now - 60 * 9))
       expired_lockfile.expired?.should be_false
+
+      expired_lockfile.lock!
 
       expired_lockfile.stub!(:creation_date).and_return(Time.at(Time.now - 60 * 11))
       expired_lockfile.expired?.should be_true
