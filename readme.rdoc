@@ -48,16 +48,16 @@ And in the method something like this:
 
 You can check if your .lock files are expired, by passing :expire_after argument into initializer
 
-    l = LockFile.new({:expire_after => "1 hour"})
-    l = LockFile.new({:expire_after => "5 hours"})
-    l = LockFile.new({:expire_after => "1 minute"})
-    l = LockFile.new({:expire_after => "100 minutes"})
-    l = LockFile.new({:expire_after => "2 hours and 10 minutes"})
+    LockFile.new({:expire_after => "1 hour"})
+    LockFile.new({:expire_after => "5 hours"})
+    LockFile.new({:expire_after => "1 minute"})
+    LockFile.new({:expire_after => "100 minutes"})
+    LockFile.new({:expire_after => "2 hours and 10 minutes"})
 
 You can check that with expired? method:
 
     l1 = LockFile.new({:expire_after => "1 hour"})
-    l2.locked?  # => false
+    l1.locked?  # => false
     l1.lock!
     l1.expired? # => false
 
@@ -73,7 +73,7 @@ To install necessary gems, please try
 
   $ gem install bundler
 
-than
+then
 
   $ bundle
 
